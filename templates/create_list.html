@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Create a New List{% endblock %}
+
+{% block content %}
+<div class="create-list-page">
+    <h2 class="create-list-title">Create a New List</h2>
+    <form method="POST" class="create-list-form">
+        <div class="form-group">
+            <label for="list_name" class="form-label">List Name:</label>
+            <input type="text" id="list_name" name="list_name" class="form-input" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="list_description" class="form-label">List Description:</label>
+            <textarea id="list_description" name="list_description" class="form-textarea" required rows="4"></textarea>
+        </div>
+        
+        <button type="submit" class="create-list-button">Create List</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    /* Global Styles for Create List Page */
+    .create-list-page {
+        background-color: #121212;
+        color: #e0e0e0;
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .create-list-title {
+        font-size: 32px;
+        color: #c77005;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .create-list-form {
+        max-width: 600px;
+        width: 100%;
+        background-color: #1f1f1f;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-size: 14px;
+        color: #ff8c00;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-input, .form-textarea {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: 2px solid #444;
+        border-radius: 5px;
+        background-color: #333;
+        color: #e0e0e0;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+        border-color: #ff8c00;
+        outline: none;
+    }
+
+    .create-list-button {
+        width: 100%;
+        background-color: #6c5ce7;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .create-list-button:hover {
+        background-color: #5a4ae1;
+    }
+</style>
+{% endblock %}

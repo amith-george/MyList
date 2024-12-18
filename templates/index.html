@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Movie Lists{% endblock %}
+
+{% block content %}
+<h2>Your Movie Lists</h2>
+<div id="lists-container">
+    {% for list in lists %}
+        <div class="card">
+            <h3>{{ list['list_name'] }}</h3>
+            <p>{{ list['list_description'] }}</p>
+            <a href="/view_list/{{ list['list_id'] }}">View List</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

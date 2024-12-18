@@ -1,0 +1,366 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Welcome Message -->
+<h2 class="welcome">Welcome, {{ user_name }}!</h2>
+
+<br></br>
+<!-- Page Title -->
+<h3 class="page-title">Newly released</h3>
+
+<!-- Display Media Cards -->
+<div class="media-list">
+    {% if media_items %}
+        <div class="card-container" id="card-container">
+            {% for item in media_items %}
+            <div class="card" data-id="{{ item.id }}" data-type="movie" data-name="{{ item.title or item.name }}" data-release-year="{{ item.release_date or item.first_air_date }}">
+                <img src="https://image.tmdb.org/t/p/w200{{ item.poster_path }}" 
+                     alt="{{ item.title or item.name }} poster" 
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/200x300';">
+                <div class="card-content">
+                    <h3>{{ item.title or item.name }} ({{ (item.release_date or item.first_air_date)[:4] }})</h3>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-results">
+            <p>No movies found.</p>
+        </div>
+    {% endif %}
+</div>
+
+
+<!-- Modal for Viewing Media Details -->
+<div id="myModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-body">
+            <div class="modal-left">
+                <img id="modal-image" src="" alt="Media poster" />
+            </div>
+            <div class="modal-right">
+                <h2 class="modal-title" id="modal-title"></h2>
+                <p><strong>Year:</strong> <span id="modal-year"></span></p>
+                <p><strong>Overview:</strong> <span id="modal-overview"></span></p>
+                <p><strong>Director:</strong> <span id="modal-directors"></span></p>
+                <p><strong>Cast:</strong> <span id="modal-cast"></span></p>
+                <p><strong>Average Rating:</strong> <span id="modal-rating"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    /* Global Styles */
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #121212;
+        color: #e0e0e0;
+        margin: 0;
+        padding: 0;
+    }
+
+    main {
+        background-color: #333;
+    }
+    
+    /* Header Styles */
+    .page-title {
+        font-size: 32px;
+        color: #c77005;
+        font-weight: 700;
+        margin: 20px 0;
+        text-align: left;
+        padding-left: 60px;
+    }
+    
+    /* Welcome Text and Newly Released Label */
+    .welcome {
+        font-size: 36px;
+        color: #c77005;
+        font-weight: 600;
+        margin-left: 20px;
+        text-align: left;
+        margin-top: 30px;
+        padding-left: 40px;
+    }
+    
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        padding: 30px 0;
+    }
+    
+    .card {
+        background: #333;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        width: 200px;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .card img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        border-bottom: 2px solid #444;
+    }
+    
+    .card-content {
+        padding: 15px;
+        color: #fff;
+        text-align: center;
+    }
+    
+    .card-content h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 10px;
+        color: #ff8c00;
+    }
+    
+/* Modal Background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+    z-index: 1000; /* Make sure it's on top */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #222; /* Dark background */
+    padding: 30px; /* Increase padding for more space */
+    border-radius: 15px;
+    width: 80%; /* Increase the width to 80% */
+    max-width: 1200px; /* Limit the maximum width */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Add shadow for depth */
+    position: relative;
+    overflow: hidden; /* Prevent overflow of content */
+    max-height: 85%; /* Allow the modal to be taller */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+
+    /* Modal Left (Image) */
+    .modal-left {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden; /* Prevent overflow */
+    }
+    
+    .modal-left img {
+        max-width: 100%; /* Allow the image to scale with the modal width */
+        max-height: 600px; /* Set a maximum height to prevent overflow */
+        height: auto; /* Keep aspect ratio */
+        width: auto; /* Allow width to scale */
+        border-radius: 4px; /* Keep the rounded corners */
+    }
+    
+    /* Modal Right (Text) */
+    .modal-right {
+        flex: 2;
+        padding: 20px;
+        color: #e0e0e0; /* Light text */
+    }
+    
+    .modal-right p {
+        font-size: 17px;
+        margin-bottom: 10px;
+    }
+    
+    .modal-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #ff8c00; /* Retain the orange color theme */
+    }
+    
+    .rating-section, .review-section {
+        margin-top: 20px;
+    }
+    
+    #rating {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    
+    #review {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+    
+    #add-to-list {
+        background-color: #6c5ce7;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    #add-to-list:hover {
+        background-color: #5a4ae1;
+    }
+    
+    .already-added-message {
+        color: green;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+    }
+    
+/* Close Button */
+.close {
+    color: #e0e0e0;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px; /* Position inside the modal */
+    right: 15px; /* Position inside the modal */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #ff8c00; /* Change color on hover */
+}
+    
+    /* No Results */
+    .no-results {
+        text-align: center;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Error Messages */
+    .error-message {
+        color: red;
+        text-align: center;
+        font-size: 16px;
+    }
+
+</style>
+    
+
+
+<script>
+let selectedMediaId = null;
+let selectedMediaType = null;
+
+// Function to hide duplicate cards by media ID
+function hideDuplicateCards() {
+    const seenIds = new Set();
+    document.querySelectorAll('.card').forEach(card => {
+        const mediaId = card.getAttribute('data-id');
+        if (seenIds.has(mediaId)) {
+            card.style.display = 'none';  // Hide duplicate cards
+        } else {
+            seenIds.add(mediaId);
+            card.style.display = 'block';  // Show the first card of each media ID
+        }
+    });
+}
+
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', function () {
+        const id = this.getAttribute('data-id');
+        const type = this.getAttribute('data-type');
+
+        if (!id || !type) {
+            console.error(`Missing media ID or type. ID: ${id}, Type: ${type}`);
+            return;
+        }
+
+        selectedMediaId = id;
+        selectedMediaType = type;
+        showMediaDetails(id, type);
+    });
+});
+
+function showMediaDetails(id, type) {
+    const endpoint = type === 'movie' ? `/movie_details/${id}` : `/tv_details/${id}`;
+
+    fetch(endpoint)
+        .then(response => response.json())
+        .then(data => {
+            // Set the poster image
+            document.getElementById('modal-image').src = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
+            document.getElementById('modal-title').textContent = data.title || data.name;
+
+            // Set release year
+            document.getElementById('modal-year').textContent = data.release_date 
+                ? data.release_date.slice(0, 4) 
+                : data.first_air_date.slice(0, 4);
+
+            // Set the overview
+            document.getElementById('modal-overview').textContent = data.overview || 'No overview available';
+
+            // Set director (check for crew data)
+            const directors = data.credits.crew.filter(person => person.job === 'Director');
+            const directorNames = directors.length > 0 ? directors.map(d => d.name).join(', ') : 'Not available';
+            document.getElementById('modal-directors').textContent = directorNames;
+
+            // Set cast (check for cast data)
+            const cast = data.credits.cast.slice(0, 5); // Show top 5 cast members
+            const castNames = cast.length > 0 ? cast.map(c => c.name).join(', ') : 'Not available';
+            document.getElementById('modal-cast').textContent = castNames;
+
+            // Set rating
+            document.getElementById('modal-rating').textContent = data.vote_average || 'N/A';
+
+            // Open the modal
+            document.getElementById('myModal').style.display = 'flex'; 
+        })
+        .catch(error => {
+            console.error('Error fetching media details:', error);
+        });
+}
+
+function closeModal() {
+    const modal = document.getElementById('myModal');
+    modal.style.display = 'none';  // Hide modal
+}
+
+// Call hideDuplicateCards after loading the media items to remove any duplicate cards
+document.addEventListener('DOMContentLoaded', function() {
+    hideDuplicateCards();
+});
+
+</script>
+
+{% endblock %}

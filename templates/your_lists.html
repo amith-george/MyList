@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Lists</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Your Lists</h1>
+        <nav>
+            <a href="{{ url_for('your_lists') }}">Your Lists</a>
+            <a href="{{ url_for('create_list') }}">Create List</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </nav>
+    </header>
+    <main>
+        <ul>
+            {% for list in lists %}
+                <li>
+                    <strong>{{ list['list_name'] }}</strong> - 
+                    <a href="/view_list/{{ list['list_id'] }}">View List</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>
