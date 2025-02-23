@@ -1,0 +1,228 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Overall Wrapper */
+.login-register-wrapper {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  background-color: #0a0a0a;
+}
+
+/* Split Panels */
+.split-panel {
+  flex: 1;
+  height: 100vh;
+  display: flex;
+}
+
+/* Left Panel */
+.left-panel {
+  background-color: #111;
+  color: #fff;
+  position: relative;
+  min-width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertical centering for the benefits list */
+  align-items: flex-start;
+  padding: 2rem 3rem;
+}
+
+/* Logo & MyList Heading Container */
+.logo-container {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  /* Remove the border-bottom */
+  /* border-bottom: 1px solid rgba(255, 255, 255, 0.1); */
+}
+
+/* Logo Image */
+.site-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+}
+
+/* MyList Heading */
+.mylist-heading {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: 0;
+  background: linear-gradient(45deg, #8b5cf6, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Benefits List */
+.benefits-list {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  transform: translateY(-20px); /* Adjust if you want the list higher/lower */
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.benefit-icon {
+  font-size: 0.9rem;
+  margin-right: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.benefit-content {
+  flex: 1;
+  text-align: left;
+}
+
+.benefit-title {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+}
+
+.benefit-description {
+  color: #888;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+/* Right Panel */
+.right-panel {
+  background-color: #0a0a0a;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container for Login/Register Form */
+.login-register-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 2.5rem;
+  background-color: #111;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+h2 {
+  text-align: center;
+  font-size: 2.25rem;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+.form-group {
+  margin-bottom: 1.75rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #ccc;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.forgot-password-link {
+  margin: 0.5rem 0;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.forgot-password-link a {
+  color: #8b5cf6;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.forgot-password-link a:hover {
+  text-decoration: underline;
+}
+
+/* Error Message */
+.error {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+/* Button Styles */
+button {
+  width: 100%;
+  padding: 1.1rem;
+  font-size: 1.05rem;
+  background: linear-gradient(45deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #8b5cf6, #6366f1);
+  transform: translateY(-2px);
+}
+
+/* Toggle Link for Sign In / Register */
+.toggle-link {
+  color: #8b5cf6;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.toggle-link:hover {
+  color: #6366f1;
+  text-decoration: underline;
+}
+
+.text-center {
+  margin-top: 20px;
+}

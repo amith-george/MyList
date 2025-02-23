@@ -1,0 +1,213 @@
+/* ProfilePage-specific styles (scoped using .profile-content) */
+
+.profile-content {
+  flex: 1;
+  padding: 40px;
+  margin-left: 250px;
+  min-height: 100vh;
+  overflow-y: auto;
+  background: #0a0a0a;
+  box-sizing: border-box;
+}
+
+.profile-title {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 70px;
+}
+
+.profile-info-container {
+  max-width: 800px;
+  margin-bottom: 40px;
+}
+
+.profile-info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-info-label {
+  color: #6366f1;
+  font-weight: 600;
+  width: 120px;
+  margin-right: 2rem;
+  font-size: 1.1rem;
+}
+
+.profile-info-input {
+  flex: 1;
+  padding: 0.8rem;
+  background: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.bio-section {
+  align-items: flex-start;
+}
+
+.bio-content {
+  flex: 1;
+}
+
+.bio-textarea {
+  width: 100%;
+  height: 150px;
+  padding: 1rem;
+  background: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  border-radius: 6px;
+  color: #fff;
+  resize: vertical;
+  font-size: 1rem;
+}
+
+.bio-display {
+  color: #fff;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.bio-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.bio-edit-btn,
+.bio-save-btn,
+.bio-cancel-btn {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.bio-edit-btn {
+  background: #6366f1;
+  color: #fff;
+}
+
+.bio-edit-btn:hover {
+  background: #4f46e5;
+}
+
+.bio-save-btn {
+  background: #10b981;
+  color: #fff;
+}
+
+.bio-save-btn:hover {
+  background: #059669;
+}
+
+.bio-cancel-btn {
+  background: #ef4444;
+  color: #fff;
+}
+
+.bio-cancel-btn:hover {
+  background: #dc2626;
+}
+
+/* Media Section */
+.media-section {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  padding-left: 10px;
+  text-align: left;
+}
+
+/* Scroll Wrapper & Container (scoped to ProfilePage) */
+.profile-content .scroll-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.profile-content .scroll-container {
+  flex: 1;
+  display: flex;
+  overflow-x: hidden;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+  gap: 15px;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 40px,
+    black calc(100% - 40px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 40px,
+    black calc(100% - 40px),
+    transparent 100%
+  );
+}
+
+/* Scrollbar Styling */
+.profile-content .scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.profile-content .scroll-container::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+.profile-content .scroll-container::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 4px;
+}
+
+/* Scroll Arrow Styles (scoped to ProfilePage) */
+/* Removed hover effect */
+.profile-content .scroll-arrow {
+  flex: 0 0 auto;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  color: #fff;
+  margin: 0 10px;
+}
+
+.profile-content .arrow-icon {
+  width: 25px;
+  height: 25px;
+  fill: #ffffff;
+}
+
+/* Loading & Empty States */
+.loading-text {
+  color: #888;
+  font-style: italic;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.empty-message {
+  color: #666;
+  font-size: 1.1rem;
+  padding: 2rem 0;
+  text-align: center;
+  border: 2px dashed #333;
+  border-radius: 8px;
+  margin: 1rem 40px 0;
+}

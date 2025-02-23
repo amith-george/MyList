@@ -1,0 +1,46 @@
+/* Basic styling for the app */
+body {
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #0a0a0a; /* Ensure this matches */
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+  margin-top: 50px;
+}
+
+p {
+  font-size: 1.2em;
+  color: #555;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  background: #0a0a0a; /* Add this */
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 5px;
+  border: 2px solid #1a1a1a;
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #1a1a1a;
+}

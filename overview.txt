@@ -1,0 +1,66 @@
+### Project Overview
+
+**Project Name**: Movie and TV Show Management Application
+
+**Purpose**: This application allows users to search for movies and TV shows, manage personal media lists, and handle user authentication and profiles.
+
+### Key Features Implemented:
+
+1. **User Management**:
+   - **User Registration**: Users can create an account by providing a username, email, and password. Passwords are securely hashed before storage.
+   - **User Login**: Users can log in using their email and password. The application verifies credentials and returns user information (excluding the password).
+   - **User Profile Management**: Users can retrieve their profile information, update their details (including password), and delete their accounts.
+
+2. **Media Management**:
+   - **Add Media to List**: Users can add movies or TV shows to their personal lists, including details like TMDB ID, title, type, rating, and review.
+   - **Update Media in List**: Users can modify the details of media items already in their lists.
+   - **Delete Media from List**: Users can remove media items from their lists, which also deletes the media entry from the database.
+   - **Get Media Details**: Users can retrieve detailed information about a specific media item by its ID.
+
+3. **List Management**:
+   - **Create a New List**: Users can create lists to organize their media items with a title and description.
+   - **Get a List by ID**: Users can retrieve a specific list and its associated media items.
+   - **Update a List**: Users can update the title and description of their lists.
+   - **Delete a List**: Users can delete a list, which also removes the list ID from the user's profile.
+
+4. **Search Functionality**:
+   - A function allows users to search for movies and TV shows based on a query string, returning results that include title, release date, vote average, overview, and media type (movie or TV show).
+
+5. **Newly Released Movies**:
+   - The application fetches movies currently playing in theaters, sorts them by release date and popularity, and returns the top results.
+
+6. **Movies by Category**:
+   - Users can retrieve movies from specific genres for the current and previous years, sorted by vote count.
+
+7. **Top Rated Movies**:
+   - The application fetches movies released in the current and previous years, sorted by vote count, and returns the top results.
+
+### Error Handling
+- Each function includes error handling to log errors and return appropriate HTTP status codes and messages in case of failures.
+
+
+
+
+LOGIC:
+
+
+finish /lists and /search route tonight
+
+the lists page should have the heading your custom lists at the top and if there are no lists in the list database it should have a button
+   called create new list at the centre of the page. 
+if there are lists in the list database then the button should be just below the heading your custom lists
+create list button should bring a pop up where the user enters the list name and description and clicks on the button create to create the list.
+
+the lists should be in a card format where a placeholder image is given and upon clicking a specific list:
+
+the sidebar should change to one where it has the same logo and title style at the top as before but this one should have 
+   a subheading below with the name of the list
+the side bar will also have the options: back, all media, movies, tv shows, update list, delete list
+clicking on a specific list on the lists page should bring to the lists/allmedia route where it routes to the allmedia option in the sidebar
+allmedia page will show the title of the list and it's description at the top, will have a search bar as well and shows all the media present in the list
+   in card format. searching will show the media that matches the query dynamically.
+the movies option will show the media type of movies, tv show option will show media type of tv, update list logic later, delete list will delete list
+   and bring the user back to the /lists route
+
+
+adding a media to one of the lists logic should be a new component which can be added as a button below the play trailer button in card details.

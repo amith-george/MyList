@@ -1,0 +1,75 @@
+.home-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background: #0a0a0a; /* Add this */
+}
+
+.home-content {
+  flex: 1;
+  padding: 40px;
+  margin-left: 250px;
+  min-height: 100vh; /* Change from height to min-height */
+  overflow-y: auto;
+  background: #0a0a0a;
+  box-sizing: border-box; /* Add this */
+}
+
+.welcome-message {
+color: #fff;
+margin-bottom: 60px;
+font-size: 2rem;
+}
+
+.media-section {
+margin-bottom: 3rem;
+}
+
+.section-title {
+color: #fff;
+font-size: 1.5rem;
+margin-bottom: 1rem;
+padding-left: 10px;
+}
+
+.scroll-wrapper {
+position: relative;
+padding: 0 40px;
+}
+
+.scroll-container {
+display: flex;
+overflow-x: hidden;
+padding: 10px 0;
+scroll-behavior: smooth;
+gap: 15px;
+mask-image: linear-gradient(
+  to right,
+  transparent 0,
+  black 40px,
+  black calc(100% - 40px),
+  transparent 100%
+);
+-webkit-mask-image: linear-gradient(
+  to right,
+  transparent 0,
+  black 40px,
+  black calc(100% - 40px),
+  transparent 100%
+);
+}
+
+/* Scrollbar styling */
+.scroll-container::-webkit-scrollbar {
+height: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+background: #1a1a1a;
+border-radius: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+background: #6366f1;
+border-radius: 4px;
+}

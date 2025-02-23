@@ -1,0 +1,231 @@
+.add-list-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+  }
+  
+  .add-list-container {
+    background: #1a1a1a;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .add-list-title {
+    color: #fff;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-label {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .form-select {
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #2a2a2a;
+    color: white;
+    font-size: 1rem;
+    appearance: none;
+    transition: all 0.2s ease;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+  }
+  
+  .form-select:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+  }
+  
+  .form-textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #2a2a2a;
+    color: white;
+    font-size: 1rem;
+    min-height: 100px;
+    resize: vertical;
+    transition: all 0.2s ease;
+  }
+  
+  .form-textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+  }
+  
+  .form-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .confirm-button {
+    padding: 0.8rem 1.5rem;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .confirm-button:disabled {
+    background: #404040;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  .confirm-button:not(:disabled):hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+  }
+  
+  .error-message {
+    color: #e50914;
+    padding: 0.8rem;
+    border-radius: 8px;
+    background: rgba(229, 9, 20, 0.1);
+    border: 1px solid rgba(229, 9, 20, 0.3);
+    margin: 1rem 0;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0.25rem;
+  }
+  
+  .close-button:hover {
+    color: #fff;
+    transform: rotate(90deg);
+  }
+
+
+  .update-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #6366f1;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .update-button:hover {
+    background: #4f46e5;
+    transform: scale(1.05);
+  }
+
+
+  /* Delete Button */
+.delete-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e50914;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.delete-button:hover {
+  background: #c40812;
+  transform: scale(1.05);
+}
+
+/* Delete Modal Specific Styles */
+.delete-confirm-text {
+  color: #fff;
+  text-align: center;
+  margin: 1.5rem 0;
+  line-height: 1.6;
+}
+
+.delete-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.delete-confirm {
+  background: #e50914 !important;
+}
+
+.delete-confirm:hover {
+  background: #c40812 !important;
+}
+
+.delete-cancel {
+  background: #404040 !important;
+}
+
+.delete-cancel:hover {
+  background: #333 !important;
+}

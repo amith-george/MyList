@@ -1,0 +1,358 @@
+.card-detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.card-detail-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: auto;
+}
+
+.card-detail {
+    background: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #e50914;
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.close-button:hover {
+    transform: scale(1.1);
+}
+
+.card-detail-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.poster-section {
+    position: relative;
+}
+
+.detail-poster {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.rating-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.trailer-container {
+    text-align: center;
+    margin-top: 0;
+}
+
+.trailer-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #e50914;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s;
+    width: 100%;
+    justify-content: center;
+}
+
+.trailer-button:hover {
+    transform: scale(1.05);
+    background: #ff0000;
+}
+
+.add-to-list-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #6366f1;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+    width: 100%;
+    justify-content: center;
+}
+
+.add-to-list-button:hover {
+    transform: scale(1.05);
+    background: #4f46e5;
+}
+
+.info-section {
+    color: #e0e0e0;
+    text-align: left;
+}
+
+.title {
+    font-size: 2rem;
+    margin: 0 0 1rem 0;
+    color: #fff;
+}
+
+.meta-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.detail-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    margin-top: 15px;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #888;
+    min-width: 100px;
+}
+
+.detail-value {
+    color: #fff;
+}
+
+.genres {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
+}
+
+.genre-tag {
+    background: #6366f1;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    margin: 0.25rem;
+}
+
+.plot-section {
+    margin: 2rem 0;
+}
+
+.plot-heading {
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.plot-text {
+    line-height: 1.6;
+    color: #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 1rem;
+}
+
+.director-section {
+    margin: 15px 0;
+}
+
+.section-heading {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: bolder;
+}
+
+.director-name {
+    color: #ccc;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.cast-section {
+    margin: 15px 0;
+}
+
+.cast-list {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.cast-member {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    min-width: 150px;
+}
+
+.cast-name {
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.cast-character {
+    color: #ccc;
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+/* Scrollbar styling */
+.plot-text::-webkit-scrollbar {
+    width: 6px;
+}
+
+.plot-text::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.plot-text::-webkit-scrollbar-thumb {
+    background: #6366f1;
+    border-radius: 3px;
+}
+
+.card-detail-loading {
+    color: white;
+    font-size: 1.5rem;
+    padding: 2rem;
+}
+
+
+/* ===== Updated Rating & Review Section ===== */
+.review-section {
+    margin: 2rem 0;
+}
+
+.review-section .detail-item {
+    margin: 1.5rem 0;
+}
+
+.review-section .detail-label {
+    color: #fff; /* White color */
+    font-weight: 700; /* Bolder weight */
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    display: block; /* Make it full width */
+}
+
+.review-section .detail-value {
+    color: #fff;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.rating-descriptor {
+    color: #ccc; /* Lighter gray for descriptor */
+    font-style: italic;
+    margin-left: 0.5rem;
+    font-weight: 400;
+}
+
+/* Review section spacing */
+.review-section .plot-section {
+    margin: 2rem 0 0;
+}
+
+.review-section .plot-text {
+    color: #fff;
+    max-height: none;
+    padding-right: 0;
+    margin-top: 0.5rem;
+}
+
+/* Scrollbar styling */
+.plot-text::-webkit-scrollbar {
+    width: 6px;
+}
+
+.plot-text::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.plot-text::-webkit-scrollbar-thumb {
+    background: #6366f1;
+    border-radius: 3px;
+}
+
+.card-detail-loading {
+    color: white;
+    font-size: 1.5rem;
+    padding: 2rem;
+}
+
+.error-message {
+    color: #e50914;
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.2rem;
+    position: relative;
+}
+
+.delete-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #6366f1;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+.delete-button:hover {
+    background: #ff0000;
+    transform: scale(1.05);
+}
