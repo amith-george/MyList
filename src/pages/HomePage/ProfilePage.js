@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Sidebar from '../../components/ui/Sidebar';
 import Card from '../../components/form/Card';
+import ListCardDetail from '../../components/form/ListCardDetail'; // Import ListCardDetail
 import ScrollArrow from '../../components/ui/ScrollArrow';
 import '../../styles/pages/ProfilePage.css';
 import { getUserIdFromToken } from '../../utils/auth';
@@ -29,6 +30,7 @@ const ProfilePage = () => {
   const [isLoadingMedia, setIsLoadingMedia] = useState(true);
   const [scrollPositions, setScrollPositions] = useState({});
   const scrollRefs = useRef({});
+  const [selectedMedia, setSelectedMedia] = useState(null); // State for selected media detail
 
   // Enrichment function remains unchanged
   const fetchMediaDetails = async (mediaItems) => {
@@ -152,7 +154,6 @@ const ProfilePage = () => {
 
   // Handle bio update with a maximum of 200 words
   const handleBioUpdate = async () => {
-    // Count words in newBio
     const wordCount = newBio.trim().split(/\s+/).filter(word => word !== '').length;
     if (wordCount > 200) {
       setBioError(`Bio cannot exceed 200 words (currently ${wordCount} words)`);
@@ -160,7 +161,6 @@ const ProfilePage = () => {
     } else {
       setBioError('');
     }
-    
     try {
       const userId = getUserIdFromToken();
       const token = localStorage.getItem('token');
@@ -176,6 +176,20 @@ const ProfilePage = () => {
     }
   };
 
+  // Function to handle clicking a media card
+  const handleCardClick = (media) => {
+    setSelectedMedia({
+      tmdbId: media.tmdbId,
+      listId: media.listId, // Make sure your media items include listId
+      type: media.type,
+    });
+  };
+
+  // Function to close the ListCardDetail
+  const handleCloseDetail = () => {
+    setSelectedMedia(null);
+  };
+
   // Render a media section (movies or TV shows)
   const renderMediaSection = (title, media, sectionKey) => {
     if (isLoadingMedia) {
@@ -184,7 +198,6 @@ const ProfilePage = () => {
     if (media.length === 0) {
       return <div className="empty-message">No {title.toLowerCase()} have been added yet</div>;
     }
-    // Use a threshold of 5px to account for minor offsets.
     const position = scrollPositions[sectionKey] || { left: 0, right: 0 };
     const canScrollLeft = position.left > 5;
     const canScrollRight = position.right > 5;
@@ -202,7 +215,13 @@ const ProfilePage = () => {
             ref={(el) => (scrollRefs.current[sectionKey] = el)}
           >
             {media.map((item) => (
-              <Card key={item._id} media={item} profileMode={true} />
+              // Add an onClick prop to trigger opening the detail view
+              <Card
+                key={item._id}
+                media={item}
+                profileMode={true}
+                onClick={() => handleCardClick(item)}
+              />
             ))}
           </div>
           <ScrollArrow
@@ -268,6 +287,16 @@ const ProfilePage = () => {
         {renderMediaSection('Newly Added Movies', movies, 'movies')}
         {renderMediaSection('Newly Added TV Shows', tvShows, 'tv')}
       </div>
+      {/* Render ListCardDetail if a media card is clicked */}
+      {selectedMedia && (
+        <ListCardDetail
+          listId={selectedMedia.listId}
+          mediaId={selectedMedia.tmdbId}
+          onClose={handleCloseDetail}
+          // Optionally add an onDeleteSuccess callback to refresh media data if needed
+          onDeleteSuccess={handleCloseDetail}
+        />
+      )}
     </div>
   );
 };
