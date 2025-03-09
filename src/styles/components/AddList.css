@@ -229,3 +229,47 @@
 .delete-cancel:hover {
   background: #333 !important;
 }
+
+
+/* Edit List Specific Styles */
+.form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #2a2a2a;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+}
+
+/* Additional styling for the Edit List confirm button */
+.edit-list-confirm-button {
+  background: #6366f1;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.edit-list-confirm-button:disabled {
+  background: #404040;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.edit-list-confirm-button:not(:disabled):hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+}

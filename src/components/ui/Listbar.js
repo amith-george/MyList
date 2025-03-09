@@ -4,12 +4,10 @@ import '../../styles/components/Listbar.css';
 import logo from '../../assets/logo4.svg';
 import DeleteList from '../form/DeleteList';
 
-
 const Sidebar = ({ onDelete, onUpdate }) => {
   const navigate = useNavigate();
   const { userId, listId } = useParams();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
 
   return (
     <div className="sidebar">
@@ -38,13 +36,18 @@ const Sidebar = ({ onDelete, onUpdate }) => {
           <span className="nav-icon">📺</span>
           <span className="nav-text">TV Shows</span>
         </Link>
+        {/* Edit List Option */}
+        <div className="nav-link" onClick={onUpdate}>
+          <span className="nav-icon">✏️</span>
+          <span className="nav-text">Edit List</span>
+        </div>
+        {/* Delete List Option */}
         <div className="nav-link" onClick={() => setShowDeleteModal(true)}>
           <span className="nav-icon">🗑️</span>
           <span className="nav-text">Delete List</span>
         </div>
       </nav>
 
-      
       {showDeleteModal && (
         <DeleteList
           userId={userId}
@@ -57,5 +60,3 @@ const Sidebar = ({ onDelete, onUpdate }) => {
 };
 
 export default Sidebar;
-
-

@@ -5,6 +5,8 @@ import Listbar from '../../components/ui/Listbar';
 import Card from '../../components/form/Card';
 import ListCardDetail from '../../components/form/ListCardDetail';
 import Pagination from '../../components/ui/Pagination';
+import EditList from '../../components/form/EditList';
+import PageLoader from '../../components/ui/PageLoader';
 import '../../styles/pages/ListDetail.css';
 import { getUserIdFromToken } from '../../utils/auth';
 
@@ -17,11 +19,10 @@ const ListDetail = () => {
   const [filterType, setFilterType] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMedia, setSelectedMedia] = useState(null);
-  // Holds the count of movies & tv shows for this list
   const [counts, setCounts] = useState({ movie: 0, tv: 0 });
-  
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [sortOption, setSortOption] = useState('added-desc');
   const itemsPerPage = 35;
   
   const { userId, listId } = useParams();
@@ -104,13 +105,13 @@ const ListDetail = () => {
         : 'all'
     );
 
-    // Reset pagination when filter or search changes
+    // Reset pagination when filter, search, or sort changes
     setCurrentPage(1);
 
     fetchListMedia();
     fetchMediaCounts();
     // eslint-disable-next-line
-  }, [userId, listId, navigate, token, location.pathname, Id, searchQuery]);
+  }, [userId, listId, navigate, token, location.pathname, Id, searchQuery, sortOption]);
 
   const handleFetchError = (error) => {
     if (error.response?.status === 403) {
@@ -125,10 +126,12 @@ const ListDetail = () => {
     console.log('Delete list clicked');
   };
 
+  // When the edit button is clicked, show the edit modal.
   const handleUpdateList = () => {
-    console.log('Update list clicked');
+    setShowEditModal(true);
   };
 
+  // Filter media items based on search query and type filter
   const filteredMedia =
     list?.mediaItems?.filter(
       (media) =>
@@ -137,9 +140,28 @@ const ListDetail = () => {
           media.overview?.toLowerCase().includes(searchQuery.toLowerCase()))
     ) || [];
 
-  // Calculate pagination values
-  const totalPages = Math.ceil(filteredMedia.length / itemsPerPage);
-  const paginatedMedia = filteredMedia.slice(
+  // Sort filtered media based on sortOption
+  const sortedMedia = [...filteredMedia].sort((a, b) => {
+    switch (sortOption) {
+      case 'added-desc':
+        // Oldest first (createdAt ascending)
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      case 'added-asc':
+        // Newly added first (createdAt descending)
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      case 'rating-desc':
+        // Highest rating first
+        return (b.rating || 0) - (a.rating || 0);
+      case 'rating-asc':
+        // Lowest rating first
+        return (a.rating || 0) - (b.rating || 0);
+      default:
+        return 0;
+    }
+  });
+
+  const totalPages = Math.ceil(sortedMedia.length / itemsPerPage);
+  const paginatedMedia = sortedMedia.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -164,7 +186,14 @@ const ListDetail = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  if (loading) return <div className="list-detail-container">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="loader-page">
+        <PageLoader />
+      </div>
+    );
+  }
+
   if (error) return <div className="list-detail-container">{error}</div>;
   if (!list) return <div className="list-detail-container">List not found</div>;
 
@@ -176,7 +205,7 @@ const ListDetail = () => {
           <h1 className="list-detail-heading">{list.title}</h1>
           <p className="list-detail-description">{list.description}</p>
           <div className="search-and-counts">
-            <div className="search-container">
+            <div className="search-sort-container">
               <input
                 type="text"
                 placeholder="Search in this list..."
@@ -184,6 +213,16 @@ const ListDetail = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
               />
+              <select
+                className="sort-select"
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+              >
+                <option value="added-desc">Added (Descending)</option>
+                <option value="added-asc">Added (Ascending)</option>
+                <option value="rating-desc">Rating (Descending)</option>
+                <option value="rating-asc">Rating (Ascending)</option>
+              </select>
             </div>
             <div className="media-counts">
               <div className="count-item">
@@ -216,7 +255,6 @@ const ListDetail = () => {
           )}
         </div>
 
-        {/* Pagination Component */}
         {totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
@@ -232,6 +270,19 @@ const ListDetail = () => {
             mediaId={selectedMedia.tmdbId}
             onClose={handleCloseDetail}
             onDeleteSuccess={fetchListMedia}
+          />
+        )}
+
+        {/* Edit List Modal */}
+        {showEditModal && (
+          <EditList
+            listId={listId}
+            currentTitle={list.title}
+            currentDescription={list.description}
+            onClose={(updated) => {
+              setShowEditModal(false);
+              if (updated) fetchListMedia();
+            }}
           />
         )}
       </div>

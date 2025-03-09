@@ -74,7 +74,7 @@ const ListCard = ({ listId, mediaId, onClose, onDeleteSuccess }) => {
     if (loading) {
         return (
             <div className="card-detail-overlay">
-                <div className="card-detail-loading">Loading...</div>
+                <div className="card-detail-loading"></div>
             </div>
         );
     }

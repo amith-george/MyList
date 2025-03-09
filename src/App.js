@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import axios from 'axios';
 import Login from './pages/Login/Login';
 import Register from './pages/Login/Register';
 import ForgotPassword from './pages/Login/ForgotPassword';
@@ -8,15 +9,51 @@ import ProfilePage from './pages/HomePage/ProfilePage';
 import SearchPage from './pages/HomePage/SearchPage';
 import ListPage from './pages/ListPage/ListPage';
 import ListDetail from './pages/ListPage/ListDetail';
+import SiteLoader from './components/ui/SiteLoader';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-// This component will check LocalStorage for a token and redirect accordingly.
 const RootRedirect = () => {
   const token = localStorage.getItem('token');
   return token ? <Navigate to="/home" /> : <Navigate to="/register" />;
 };
 
 function App() {
+  const [backendActive, setBackendActive] = useState(false);
+  const [checkingBackend, setCheckingBackend] = useState(true);
+
+  useEffect(() => {
+    const checkBackend = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/status/ping`);
+        if (response.data.status === 'ok') {
+          setBackendActive(true);
+        } else {
+          setBackendActive(false);
+        }
+      } catch (error) {
+        console.error('Error checking backend status:', error);
+        setBackendActive(false);
+      } finally {
+        setCheckingBackend(false);
+      }
+    };
+
+    checkBackend();
+  }, []);
+
+  if (checkingBackend) {
+    return <SiteLoader />;
+  }
+
+  if (!backendActive) {
+    return (
+      <div style={{ color: 'white', textAlign: 'center', marginTop: '2rem' }}>
+        <p>Backend is not available. Please try again later.</p>
+      </div>
+    );
+  }
+
   return (
     <Router>
       <Routes>
