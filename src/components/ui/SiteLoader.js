@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../../styles/components/SiteLoader.css';
 
 const SiteLoader = () => {
   const messages = [
-    "Loading...",
     "Fetching TMDb Database...",
     "Fetching User Details...",
-    "Loading your Personal Lists...",
+    "Loading Personal Lists...",
     "Making the Final Changes..."
   ];
 
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentMessageIndex(prevIndex => (prevIndex + 1) % messages.length);
-    }, 4000); // Change message every 4 seconds
-
-    return () => clearInterval(interval);
-  }, []);
+  const handleAnimationEnd = () => {
+    // When the animation ends, switch to the next message.
+    setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
+  };
 
   return (
     <div className="terminal-loader">
@@ -30,7 +26,14 @@ const SiteLoader = () => {
           <div className="control maximize"></div>
         </div>
       </div>
-      <div className="text">{messages[currentMessageIndex]}</div>
+      {/* The text is now absolutely centered in the terminal */}
+      <div 
+        className="text" 
+        key={currentMessageIndex}
+        onAnimationEnd={handleAnimationEnd}
+      >
+        {messages[currentMessageIndex]}
+      </div>
     </div>
   );
 };
