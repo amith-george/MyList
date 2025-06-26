@@ -2,8 +2,8 @@
 import AppSidebar from '@/components/Sidebar';
 import ProfilePageClient from '@/components/ProfilePageClient';
 
-export default async function PublicProfilePage({ params }: { params: { username: string } }) {
-  const { username } = await Promise.resolve(params);
+export default function PublicProfilePage({ params }: { params: { username: string } }) {
+  const { username } = params;
 
   return (
     <div className="flex min-h-screen bg-[#1c1c1c] text-white">
