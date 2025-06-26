@@ -46,8 +46,12 @@ export default function RegisterForm() {
 
       setSuccess('Registration successful!');
       router.push('/login');
-    } catch (err: any) {
-      setError(err.message || 'An error occurred');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
     } finally {
       setLoading(false);
     }

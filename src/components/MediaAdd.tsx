@@ -3,19 +3,26 @@
 import { useEffect, useRef, useState } from 'react';
 import { getUserIdFromToken } from '@/utils/auth';
 
+type Media = {
+  id: number;
+  title?: string;
+  name?: string;
+};
+
 type Props = {
-  media: {
-    id: number;
-    title?: string;
-    name?: string;
-  };
+  media: Media;
   onClose: () => void;
+};
+
+type List = {
+  _id: string;
+  title: string;
 };
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API;
 
 export default function MediaAdd({ media, onClose }: Props) {
-  const [lists, setLists] = useState<any[]>([]);
+  const [lists, setLists] = useState<List[]>([]);
   const [selectedList, setSelectedList] = useState('');
   const [selectedRating, setSelectedRating] = useState('');
   const [review, setReview] = useState('');
@@ -35,10 +42,11 @@ export default function MediaAdd({ media, onClose }: Props) {
           },
         });
         if (!res.ok) throw new Error('Failed to fetch lists');
-        const data = await res.json();
+        const data: List[] = await res.json();
         setLists(data);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'An error occurred';
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -79,13 +87,14 @@ export default function MediaAdd({ media, onClose }: Props) {
       }
 
       onClose();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'An error occurred';
+      setError(message);
     }
   };
 
   useEffect(() => {
-    const preventScroll = (e: any) => {
+    const preventScroll = (e: WheelEvent | TouchEvent) => {
       if (lockScroll) {
         e.preventDefault();
         e.stopPropagation();
@@ -95,12 +104,12 @@ export default function MediaAdd({ media, onClose }: Props) {
     const current = modalRef.current;
     if (!current) return;
 
-    current.addEventListener('wheel', preventScroll, { passive: false });
-    current.addEventListener('touchmove', preventScroll, { passive: false });
+    current.addEventListener('wheel', preventScroll as EventListener, { passive: false });
+    current.addEventListener('touchmove', preventScroll as EventListener, { passive: false });
 
     return () => {
-      current.removeEventListener('wheel', preventScroll);
-      current.removeEventListener('touchmove', preventScroll);
+      current.removeEventListener('wheel', preventScroll as EventListener);
+      current.removeEventListener('touchmove', preventScroll as EventListener);
     };
   }, [lockScroll]);
 
@@ -162,7 +171,7 @@ export default function MediaAdd({ media, onClose }: Props) {
             <option value="3">3 (Very Bad)</option>
             <option value="2">2 (Horrible)</option>
             <option value="1">1 (Appalling)</option>
-            <option value="0">0 (Haven't Watched)</option>
+            <option value="0">0 (Haven&apos;t Watched)</option>
           </select>
         </div>
 

@@ -62,16 +62,16 @@ export default function ListPageClient() {
 
       <div>
         {userLists.length === 0 ? (
-          <p className="text-gray-400">You haven't created any lists yet.</p>
+          <p className="text-gray-400">You haven&apos;t created any lists yet.</p>
         ) : (
           <div className="flex flex-wrap gap-4 sm:gap-6">
             {userLists.map((list) => (
-            <ListCard
+              <ListCard
                 key={list._id}
                 title={list.title}
                 description={list.description}
                 listId={list._id}
-            />
+              />
             ))}
           </div>
         )}

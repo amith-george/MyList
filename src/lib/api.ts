@@ -1,9 +1,9 @@
 const API_BASE = process.env.NEXT_PUBLIC_BACKEND_API;
 
-export async function apiFetch(
+export async function apiFetch<T = unknown>(
   path: string,
   options: RequestInit = {}
-): Promise<any> {
+): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
     headers: {
@@ -18,5 +18,5 @@ export async function apiFetch(
     throw new Error(err.message || 'API request failed');
   }
 
-  return res.json();
+  return res.json() as Promise<T>;
 }

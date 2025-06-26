@@ -24,7 +24,6 @@ import {
   Search,
   Star,
   User,
-  ChevronUp,
   Film,
   FilmIcon,
   Tv,
@@ -70,20 +69,13 @@ function AppSidebar() {
   const listIdMatch = pathname.match(/^\/lists\/([^\/]+)/);
   const listId = listIdMatch ? listIdMatch[1] : null;
 
-  const listContext = isInListDetail ? useListContext() : null;
-  const filterContext = isInListDetail ? useListFilter() : null;
+  const listContext = useListContext();
+  const filterContext = useListFilter();
 
   const listData = listContext?.listData;
   const setListData = listContext?.setListData;
   const filterType = filterContext?.filterType ?? 'all';
   const setFilterType = filterContext?.setFilterType ?? (() => {});
-
-  const handleLogout = () => {
-    ['token', 'username', 'email', 'avatar'].forEach((key) =>
-      localStorage.removeItem(key)
-    );
-    router.push('/login');
-  };
 
   if (isMobile) {
     const itemsToRender = isInListDetail

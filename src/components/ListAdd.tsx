@@ -44,7 +44,7 @@ export default function ListAdd({ userId, token, onClose, onCreated }: ListAddPr
   };
 
   useEffect(() => {
-    const preventScroll = (e: any) => {
+    const preventScroll = (e: WheelEvent | TouchEvent) => {
       if (lockScroll) {
         e.preventDefault();
         e.stopPropagation();

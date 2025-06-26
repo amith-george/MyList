@@ -1,23 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MediaDetail from '@/components/MediaDetail';
+import type { TmdbMediaItem } from '@/types/types';
 
-type MediaItem = {
-  id: number;
-  media_type: 'movie' | 'tv';
-  title?: string;
-  name?: string;
-};
+// Extend the Window interface to include openMediaDetail
+declare global {
+  interface Window {
+    openMediaDetail: (media: TmdbMediaItem) => void;
+  }
+}
 
 export default function MediaModalClient() {
-  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+  const [selectedMedia, setSelectedMedia] = useState<TmdbMediaItem | null>(null);
 
-  if (typeof window !== 'undefined') {
-    (window as any).openMediaDetail = (media: MediaItem) => {
+  useEffect(() => {
+    window.openMediaDetail = (media: TmdbMediaItem) => {
       setSelectedMedia(media);
     };
-  }
+  }, []);
 
   return selectedMedia ? (
     <MediaDetail

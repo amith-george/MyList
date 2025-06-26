@@ -37,7 +37,7 @@ export default function ListDelete({
       } else {
         alert(data.message || 'Failed to delete list.');
       }
-    } catch (error) {
+    } catch (_error: unknown) {
       alert('Something went wrong. Please try again.');
     } finally {
       setLoading(false);

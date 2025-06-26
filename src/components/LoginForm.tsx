@@ -42,8 +42,9 @@ export default function LoginForm({ onForgotPassword }: Props) {
       localStorage.setItem('avatar', data.user.avatar);
 
       router.push('/');
-    } catch (err: any) {
-      setError(err.message || 'An error occurred');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -126,10 +127,9 @@ export default function LoginForm({ onForgotPassword }: Props) {
         </button>
       </form>
 
-
       <div className="mt-4 space-y-2 text-center text-sm">
         <p>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <a href="/register" className="text-blue-600 hover:underline">
             Register here
           </a>

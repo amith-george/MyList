@@ -14,8 +14,10 @@ type Props = {
   currentPage: number;
 };
 
+// No need to redeclare `window` interface — it's already in MediaModalClient.tsx
+
 export default function SearchPageClient({ searchQuery = '', currentPage }: Props) {
-  const safeQuery = searchQuery.trim(); // defensive guard
+  const safeQuery = searchQuery.trim();
 
   const [mediaList, setMediaList] = useState<TmdbMediaItem[]>([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -54,14 +56,7 @@ export default function SearchPageClient({ searchQuery = '', currentPage }: Prop
             <div
               key={`${media.id}-${media.media_type}`}
               className="cursor-pointer"
-              onClick={() =>
-                (window as any).openMediaDetail?.({
-                  id: media.id,
-                  media_type: media.media_type || 'movie',
-                  title: media.title,
-                  name: media.name,
-                })
-              }
+              onClick={() => window.openMediaDetail?.(media)}
             >
               <MediaCard
                 id={media.id}

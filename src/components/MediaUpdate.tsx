@@ -17,7 +17,6 @@ const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:4000
 export default function MediaUpdate({
   mediaId,
   initialTitle,
-  initialType,
   initialRating = 0,
   initialReview = '',
   onClose,
@@ -76,7 +75,7 @@ export default function MediaUpdate({
             <option value="3">3 (Very Bad)</option>
             <option value="2">2 (Horrible)</option>
             <option value="1">1 (Appalling)</option>
-            <option value="0">0 (Haven't watched)</option>
+            <option value="0">0 (Haven&apos;t watched)</option>
           </select>
         </div>
 

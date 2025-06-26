@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getUserIdFromToken } from '@/utils/auth';
 import clsx from 'clsx';
+import type { User } from '@/types/types';
 
 const avatarOptions = ['boy1.png', 'boy2.png', 'boy3.png', 'girl1.png', 'girl2.png', 'girl3.png'];
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:4000';
@@ -12,7 +13,7 @@ const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:4000
 interface ProfileUpdateProps {
   isOpen: boolean;
   onClose: () => void;
-  onUpdate: (updatedUser: any) => void;
+  onUpdate: (updatedUser: User) => void;
   initialUsername?: string;
   initialBio?: string;
   initialAvatar?: string;
@@ -86,7 +87,7 @@ export default function ProfileUpdate({
     setIsSubmitting(true);
     setErrorMessage('');
 
-    const body: any = {
+    const body = {
       username: username.trim(),
       bio,
       avatar,
@@ -109,9 +110,9 @@ export default function ProfileUpdate({
         return;
       }
 
-      onUpdate(data.user);
+      onUpdate(data.user as User);
       onClose();
-    } catch (error: any) {
+    } catch (error: unknown) {
       setErrorMessage('Something went wrong. Please try again.');
       console.error('Error updating user:', error);
     } finally {
@@ -120,7 +121,7 @@ export default function ProfileUpdate({
   };
 
   useEffect(() => {
-    const preventScroll = (e: any) => {
+    const preventScroll = (e: Event) => {
       if (lockScroll) {
         e.preventDefault();
         e.stopPropagation();

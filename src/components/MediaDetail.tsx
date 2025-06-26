@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, WheelEvent, TouchEvent } from 'react';
 import Image from 'next/image';
 import MediaAdd from '@/components/MediaAdd';
 import type { TmdbData } from '@/types/types';
 import { formatDate } from '@/utils/format';
-import { FaListUl } from 'react-icons/fa'; // Add to List icon
+import { FaListUl } from 'react-icons/fa';
 
 type Props = {
   mediaId: number;
@@ -38,7 +38,7 @@ export default function MediaDetail({ mediaId, mediaType, onClose }: Props) {
     fetchDetails();
   }, [mediaId, mediaType]);
 
-  const preventScroll = (e: any) => {
+  const preventScroll = (e: WheelEvent | TouchEvent) => {
     if (lockScroll) {
       e.stopPropagation();
       e.preventDefault();
@@ -50,14 +50,17 @@ export default function MediaDetail({ mediaId, mediaType, onClose }: Props) {
 
     const current = modalRef.current;
 
-    current.addEventListener('wheel', preventScroll, { passive: false });
-    current.addEventListener('touchmove', preventScroll, { passive: false });
+    const handleWheel = (e: WheelEvent) => preventScroll(e);
+    const handleTouchMove = (e: TouchEvent) => preventScroll(e);
+
+    current.addEventListener('wheel', handleWheel as unknown as EventListener, { passive: false });
+    current.addEventListener('touchmove', handleTouchMove as unknown as EventListener, { passive: false });
 
     return () => {
-      current.removeEventListener('wheel', preventScroll);
-      current.removeEventListener('touchmove', preventScroll);
+      current.removeEventListener('wheel', handleWheel as unknown as EventListener);
+      current.removeEventListener('touchmove', handleTouchMove as unknown as EventListener);
     };
-  }, [lockScroll]);
+  }, [lockScroll, preventScroll]);
 
   if (loading)
     return (
@@ -92,19 +95,19 @@ export default function MediaDetail({ mediaId, mediaType, onClose }: Props) {
 
         <div className="flex flex-col md:flex-row flex-wrap gap-6 md:gap-8">
           {/* Poster Section */}
-        <div className="relative w-full md:w-[280px] flex-shrink-0 mt-12 md:mt-0">
+          <div className="relative w-full md:w-[280px] flex-shrink-0 mt-12 md:mt-0">
             <div className="relative w-full">
-            <Image
-            src={
-                detail.poster_path
-                ? `https://image.tmdb.org/t/p/w500${detail.poster_path}`
-                : '/default-movie.png'
-            }
-            alt={detail.title || detail.name || 'No title'}
-            width={280}
-            height={420}
-            className="rounded-lg w-full h-auto object-cover"
-            />
+              <Image
+                src={
+                  detail.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${detail.poster_path}`
+                    : '/default-movie.png'
+                }
+                alt={detail.title || detail.name || 'No title'}
+                width={280}
+                height={420}
+                className="rounded-lg w-full h-auto object-cover"
+              />
               {detail.vote_average !== undefined && (
                 <span className="absolute top-2 left-2 bg-black/80 text-white text-lg font-semibold px-3 py-1 rounded">
                   ⭐ {detail.vote_average.toFixed(1)}
@@ -112,7 +115,6 @@ export default function MediaDetail({ mediaId, mediaType, onClose }: Props) {
               )}
             </div>
 
-            {/* Watch Trailer */}
             {detail.trailer_key && (
               <a
                 href={`https://www.youtube.com/watch?v=${detail.trailer_key}`}
@@ -124,13 +126,12 @@ export default function MediaDetail({ mediaId, mediaType, onClose }: Props) {
               </a>
             )}
 
-            {/* Add to List */}
             <button
-            className="mt-3 w-full flex items-center justify-center gap-2 bg-zinc-700 hover:bg-zinc-600 text-white py-2 rounded transition"
-            onClick={() => setShowAddModal(true)}
+              className="mt-3 w-full flex items-center justify-center gap-2 bg-zinc-700 hover:bg-zinc-600 text-white py-2 rounded transition"
+              onClick={() => setShowAddModal(true)}
             >
-            <FaListUl className="text-lg" />
-            Add to List
+              <FaListUl className="text-lg" />
+              Add to List
             </button>
           </div>
 
@@ -141,19 +142,19 @@ export default function MediaDetail({ mediaId, mediaType, onClose }: Props) {
             </h2>
 
             <div className="mb-4 space-y-2">
-                {release && <p>Release Date: {formatDate(release)}</p>}
-                {mediaType === 'movie' &&
+              {release && <p>Release Date: {formatDate(release)}</p>}
+              {mediaType === 'movie' &&
                 typeof detail.runtime === 'number' &&
                 detail.runtime > 0 && (
-                    <p>
+                  <p>
                     Runtime: {Math.floor(detail.runtime / 60)}h {detail.runtime % 60}m
-                    </p>
+                  </p>
                 )}
 
-                {mediaType === 'tv' &&
+              {mediaType === 'tv' &&
                 typeof detail.episode_count === 'number' &&
                 detail.episode_count > 0 && (
-                    <p>Episodes: {detail.episode_count}</p>
+                  <p>Episodes: {detail.episode_count}</p>
                 )}
             </div>
 
@@ -193,18 +194,17 @@ export default function MediaDetail({ mediaId, mediaType, onClose }: Props) {
           </div>
         </div>
       </div>
-        
-    {showAddModal && (
-    <div
-        className="fixed inset-0 z-[70] flex items-center justify-center"
-        onClick={() => setShowAddModal(false)}
-    >
-        <div onClick={(e) => e.stopPropagation()}>
-        <MediaAdd media={detail} onClose={() => setShowAddModal(false)} />
-        </div>
-    </div>
-    )}
 
+      {showAddModal && (
+        <div
+          className="fixed inset-0 z-[70] flex items-center justify-center"
+          onClick={() => setShowAddModal(false)}
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <MediaAdd media={detail} onClose={() => setShowAddModal(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

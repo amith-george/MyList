@@ -44,14 +44,21 @@ async function fetchSections(): Promise<{ [key: string]: TmdbMediaItem[] }> {
       try {
         const res = await fetch(url, { cache: 'no-store' });
         const data = await res.json();
-        const results = Array.isArray(data) ? data : data?.results || [];
+        const results: TmdbMediaItem[] = Array.isArray(data)
+          ? data.map((item) => ({
+              ...item,
+              tmdbId: item.id,
+              media_type: item.media_type || (item.title ? 'movie' : 'tv'),
+            }))
+          : (data?.results || []).map((item: Record<string, unknown>) => ({
+              ...item,
+              tmdbId: item.id as number,
+              media_type:
+                item.media_type ||
+                (typeof item.title === 'string' ? 'movie' : 'tv'),
+            })) as TmdbMediaItem[];
 
-        // Transform TMDb data into TmdbMediaItem[]
-        fetchedData[key] = results.map((item: any): TmdbMediaItem => ({
-          ...item,
-          tmdbId: item.id,
-          media_type: item.media_type || (item.title ? 'movie' : 'tv'),
-        }));
+        fetchedData[key] = results;
       } catch (err) {
         console.error(`Error fetching ${key}:`, err);
         fetchedData[key] = [];

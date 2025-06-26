@@ -41,12 +41,12 @@ export default function ListUpdate({
 
       const data = await response.json();
       if (response.ok) {
-        onSuccess({ title, description }); // Pass updated data
+        onSuccess({ title, description });
         onClose();
       } else {
         alert(data.message || 'Failed to update list.');
       }
-    } catch (error) {
+    } catch (_error) {
       alert('Something went wrong. Please try again.');
     } finally {
       setLoading(false);

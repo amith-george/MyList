@@ -60,7 +60,7 @@ export default function ListDetailClient() {
     };
 
     fetchListWithDetails();
-  }, [listId, userId, token]);
+  }, [listId, userId, token, setListData]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -131,13 +131,13 @@ export default function ListDetailClient() {
           <div className="flex flex-wrap gap-2 sm:gap-3">
             {filteredSortedPaginated.results.map((item) => (
               <div key={item._id} onClick={() => setSelectedMedia(item)}>
-              <MediaCard
-                id={item.tmdbId}
-                title={item.title ?? item.name ?? 'Untitled'}
-                posterPath={item.poster_path}
-                releaseDate={item.release_date || ''}
-                mediaType={item.media_type}
-              />
+                <MediaCard
+                  id={item.tmdbId}
+                  title={item.title ?? item.name ?? 'Untitled'}
+                  posterPath={item.poster_path}
+                  releaseDate={item.release_date || ''}
+                  mediaType={item.media_type}
+                />
               </div>
             ))}
           </div>
@@ -154,16 +154,16 @@ export default function ListDetailClient() {
       )}
 
       {selectedMedia && (
-      <ListMediaDetail
-        mediaItem={selectedMedia}
-        listId={listId as string}
-        isOwner={true} // <-- Add this line
-        onClose={() => setSelectedMedia(null)}
-        onMediaDeleted={(deletedId) => {
-          setMediaItems((prev) => prev.filter((m) => m._id !== deletedId));
-          setSelectedMedia(null);
-        }}
-      />
+        <ListMediaDetail
+          mediaItem={selectedMedia}
+          listId={listId as string}
+          isOwner={true}
+          onClose={() => setSelectedMedia(null)}
+          onMediaDeleted={(deletedId) => {
+            setMediaItems((prev) => prev.filter((m) => m._id !== deletedId));
+            setSelectedMedia(null);
+          }}
+        />
       )}
     </>
   );

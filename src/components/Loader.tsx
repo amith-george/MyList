@@ -46,10 +46,10 @@ export default function SiteLoader({ pinged }: { pinged: boolean }) {
           key={index}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap overflow-hidden border-r-[3px] border-green-500"
           style={{
-            ['--ch' as any]: `${charCount}`,
+            '--ch': `${charCount}`,
             animation: `typeAndDelete 4s steps(${charCount}) forwards, blinkCursor 0.5s step-end infinite alternate`,
             width: '0ch',
-          }}
+          } as React.CSSProperties}
         >
           {message}
         </div>
