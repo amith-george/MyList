@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'; // ✅ Add this to avoid static generation issues
+
 import AppSidebar from '@/components/Sidebar';
 import MediaRow from '@/components/MediaRow';
 import AuthGuard from '@/components/AuthGuard';
@@ -75,10 +77,7 @@ export default async function Home() {
   return (
     <AuthGuard>
       <div className="flex min-h-screen bg-[#1c1c1c] text-white">
-        {/* Sidebar */}
         <AppSidebar />
-
-        {/* Main Content */}
         <main className="flex-1 p-4 sm:p-6 overflow-x-hidden">
           {orderedKeys.map((title) =>
             sections[title]?.length ? (

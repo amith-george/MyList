@@ -2,7 +2,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import StartupLoader from "@/components/LoaderClient"; // adjust if in different directory
+import StartupLoader from "@/components/LoaderClient";
+import { ListProvider } from "@/context/ListContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,9 @@ export default function RootLayout({
       <body
         className={`bg-gray-300 text-foreground ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <StartupLoader>{children}</StartupLoader>
+        <ListProvider>
+          <StartupLoader>{children}</StartupLoader>
+        </ListProvider>
       </body>
     </html>
   );
