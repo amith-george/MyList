@@ -12,7 +12,6 @@ type MediaCardProps = {
 };
 
 export default function MediaCard({
-  id: _id,
   title,
   releaseDate,
   posterPath,

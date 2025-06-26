@@ -38,17 +38,17 @@ export default function MediaDetail({ mediaId, mediaType, onClose }: Props) {
     fetchDetails();
   }, [mediaId, mediaType]);
 
-  const preventScroll = (e: WheelEvent | TouchEvent) => {
-    if (lockScroll) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
-  };
-
   useEffect(() => {
     if (!modalRef.current) return;
 
     const current = modalRef.current;
+
+    const preventScroll = (e: WheelEvent | TouchEvent) => {
+      if (lockScroll) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    };
 
     const handleWheel = (e: WheelEvent) => preventScroll(e);
     const handleTouchMove = (e: TouchEvent) => preventScroll(e);
@@ -60,7 +60,7 @@ export default function MediaDetail({ mediaId, mediaType, onClose }: Props) {
       current.removeEventListener('wheel', handleWheel as unknown as EventListener);
       current.removeEventListener('touchmove', handleTouchMove as unknown as EventListener);
     };
-  }, [lockScroll, preventScroll]);
+  }, [lockScroll]);
 
   if (loading)
     return (

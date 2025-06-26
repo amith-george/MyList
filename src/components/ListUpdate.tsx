@@ -46,7 +46,7 @@ export default function ListUpdate({
       } else {
         alert(data.message || 'Failed to update list.');
       }
-    } catch (_error) {
+    } catch {
       alert('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
