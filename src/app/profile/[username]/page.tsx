@@ -2,7 +2,13 @@
 import AppSidebar from '@/components/Sidebar';
 import ProfilePageClient from '@/components/ProfilePageClient';
 
-export default function PublicProfilePage({ params }: { params: { username: string } }) {
+type PublicProfileParams = {
+  params: {
+    username: string;
+  };
+};
+
+export default function PublicProfilePage({ params }: PublicProfileParams) {
   const { username } = params;
 
   return (
