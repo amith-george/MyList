@@ -2,6 +2,8 @@
 
 A sleek and responsive media tracking app to discover, organize, and review your favorite movies and TV shows.
 
+Live Site: https://my-list-beryl.vercel.app/
+
 ---
 
 ## 📌 Description
@@ -27,5 +29,5 @@ Whether you're a casual viewer or a dedicated binge-watcher, **MyList** helps yo
 ## 📫 Contact
 
 **Amith George**  
-📧 amithgeorge130@gmail.com  
+Email: amithgeorge130@gmail.com  
 🌐 [LinkedIn](https://www.linkedin.com/in/amith-george/)  
