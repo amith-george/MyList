@@ -2,7 +2,7 @@
 
 A sleek and responsive media tracking app to discover, organize, and review your favorite movies and TV shows.
 
-Live Site: https://my-list-beryl.vercel.app/
+Live Site: https://my-list-beryl.vercel.app/login
 
 ---
 
