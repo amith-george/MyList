@@ -49,7 +49,7 @@ export default function ListMediaDetail({
     };
 
     fetchDetails();
-  }, [media]);
+  }, [media, listId]);
 
   if (loading)
     return (
