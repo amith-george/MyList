@@ -20,8 +20,11 @@ export default function ListDetailClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [sortOption, setSortOption] = useState<'added-desc' | 'added-asc' | 'rating-desc' | 'rating-asc'>('added-desc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItemsCount, setTotalItemsCount] = useState(0);
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
 
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
@@ -30,6 +33,20 @@ export default function ListDetailClient() {
   const { listData, setListData } = useListContext();
   const { filterType } = useListFilter();
 
+  // Debounce search to prevent spamming the backend
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  // Reset page to 1 when filters/sort/search change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterType, sortOption, debouncedSearch]);
+
+  // Fetch paginated data from backend
   useEffect(() => {
     if (!listId || !userId || !token) return;
 
@@ -37,12 +54,25 @@ export default function ListDetailClient() {
       try {
         setLoading(true);
 
-        const res = await fetch(`${backendUrl}/lists/${userId}/${listId}?page=1&limit=1000`, {
+        const queryParams = new URLSearchParams({
+          page: currentPage.toString(),
+          limit: itemsPerPage.toString(),
+          sort: sortOption,
+        });
+
+        if (filterType !== 'all') queryParams.append('filter', filterType);
+        if (debouncedSearch) queryParams.append('search', debouncedSearch);
+
+        const res = await fetch(`${backendUrl}/lists/${userId}/${listId}?${queryParams.toString()}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        
         if (!res.ok) throw new Error('List fetch failed');
         const data = await res.json();
+        
         setMediaItems(data.mediaItems);
+        setTotalPages(data.pagination.totalPages || 1);
+        setTotalItemsCount(data.pagination.totalItems || 0);
         setListData({ title: data.list.title, description: data.list.description });
 
         const countRes = await fetch(`${backendUrl}/lists/${userId}/${listId}/counts`, {
@@ -60,38 +90,9 @@ export default function ListDetailClient() {
     };
 
     fetchListWithDetails();
-  }, [listId, userId, token, setListData]);
+  }, [listId, userId, token, setListData, currentPage, filterType, sortOption, debouncedSearch]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filterType, searchQuery, sortOption]);
-
-  const filteredSortedPaginated = useMemo(() => {
-    let filtered = mediaItems;
-
-    if (filterType !== 'all') filtered = filtered.filter((m) => m.media_type === filterType);
-    if (searchQuery.trim()) {
-      filtered = filtered.filter((m) =>
-        (m.title ?? '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (m.overview ?? '').toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    const sorted = [...filtered].sort((a, b) => {
-      switch (sortOption) {
-        case 'added-desc': return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        case 'added-asc': return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-        case 'rating-desc': return (b.rating || 0) - (a.rating || 0);
-        case 'rating-asc': return (a.rating || 0) - (b.rating || 0);
-        default: return 0;
-      }
-    });
-
-    const start = (currentPage - 1) * itemsPerPage;
-    return { total: sorted.length, results: sorted.slice(start, start + itemsPerPage) };
-  }, [mediaItems, searchQuery, filterType, sortOption, currentPage]);
-
-  if (loading) return <div className="min-h-screen bg-[#1c1c1c] text-white flex items-center justify-center">Loading...</div>;
+  if (loading && mediaItems.length === 0) return <div className="min-h-screen bg-[#1c1c1c] text-white flex items-center justify-center">Loading...</div>;
   if (error) return <div className="min-h-screen bg-[#1c1c1c] text-white p-6"><p className="text-red-400">{error}</p></div>;
 
   return (
@@ -124,12 +125,12 @@ export default function ListDetailClient() {
         </select>
       </div>
 
-      {filteredSortedPaginated.total === 0 ? (
+      {totalItemsCount === 0 ? (
         <p className="text-gray-400">No media items found.</p>
       ) : (
         <>
-          <div className="flex flex-wrap gap-2 sm:gap-3">
-            {filteredSortedPaginated.results.map((item) => (
+          <div className={`flex flex-wrap gap-2 sm:gap-3 transition-opacity duration-200 ${loading ? 'opacity-50' : 'opacity-100'}`}>
+            {mediaItems.map((item) => (
               <div key={item._id} onClick={() => setSelectedMedia(item)}>
                 <MediaCard
                   id={item.tmdbId}
@@ -141,11 +142,11 @@ export default function ListDetailClient() {
               </div>
             ))}
           </div>
-          {filteredSortedPaginated.total > itemsPerPage && (
+          {totalPages > 1 && (
             <div className="flex justify-center mt-6 mb-10 sm:mb-6">
               <PaginationBar
                 currentPage={currentPage}
-                totalPages={Math.ceil(filteredSortedPaginated.total / itemsPerPage)}
+                totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
               />
             </div>
@@ -161,6 +162,7 @@ export default function ListDetailClient() {
           onClose={() => setSelectedMedia(null)}
           onMediaDeleted={(deletedId) => {
             setMediaItems((prev) => prev.filter((m) => m._id !== deletedId));
+            setTotalItemsCount((prev) => prev - 1);
             setSelectedMedia(null);
           }}
         />

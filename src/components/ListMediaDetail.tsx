@@ -38,7 +38,7 @@ export default function ListMediaDetail({
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const res = await fetch(`${backendUrl}/tmdb/${media.media_type}/${media.tmdbId}`);
+        const res = await fetch(`${backendUrl}/media/${listId}/${media.tmdbId}`);
         const data = await res.json();
         setDetail(data);
       } catch (err) {
@@ -86,7 +86,7 @@ export default function ListMediaDetail({
             <Image
               src={
                 detail.poster_path
-                  ? `https://image.tmdb.org/t/p/w500${detail.poster_path}`
+                  ? `https://image.tmdb.org/t/p/w342${detail.poster_path}`
                   : '/default-movie.png'
               }
               alt={detail.title || detail.name || 'No title'}

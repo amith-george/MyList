@@ -31,7 +31,8 @@ export default function RegisterForm() {
 
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/users/register`, {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:4000';
+      const res = await fetch(`${backendUrl}/users/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password }),

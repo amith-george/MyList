@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'; // ✅ Add this to avoid static generation issues
+export const revalidate = 10800; // Cache page for 3 hours
 
 import AppSidebar from '@/components/Sidebar';
 import MediaRow from '@/components/MediaRow';
@@ -44,7 +44,7 @@ async function fetchSections(): Promise<{ [key: string]: TmdbMediaItem[] }> {
   await Promise.all(
     endpoints.map(async ({ key, url }) => {
       try {
-        const res = await fetch(url, { cache: 'no-store' });
+        const res = await fetch(url);
         const data = await res.json();
         const results: TmdbMediaItem[] = Array.isArray(data)
           ? data.map((item) => ({

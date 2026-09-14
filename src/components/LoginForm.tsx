@@ -23,7 +23,8 @@ export default function LoginForm({ onForgotPassword }: Props) {
 
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/users/login`, {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:4000';
+      const res = await fetch(`${backendUrl}/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -41,7 +42,7 @@ export default function LoginForm({ onForgotPassword }: Props) {
       localStorage.setItem('username', data.user.username);
       localStorage.setItem('avatar', data.user.avatar);
 
-      router.push('/');
+      window.location.href = '/';
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred';
       setError(errorMessage);

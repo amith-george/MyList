@@ -19,7 +19,7 @@ export default function MediaCard({
   onClick,
 }: MediaCardProps) {
   const imageUrl = posterPath
-    ? `https://image.tmdb.org/t/p/w500${posterPath}`
+    ? `https://image.tmdb.org/t/p/w342${posterPath}`
     : '/default-movie.png';
 
   return (
