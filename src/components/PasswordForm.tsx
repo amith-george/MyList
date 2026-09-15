@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import { toast } from 'react-hot-toast';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 type Props = {
@@ -40,19 +41,19 @@ export default function PasswordForm({ onBackToLogin }: Props) {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || 'Password reset failed');
+        toast.error(data.message || 'Password reset failed');
         return;
       }
 
-      setMessage(data.message || 'Password reset successfully');
+      toast.success("Your password has been securely updated.");
       setEmail('');
       setNewPassword('');
       setConfirmPassword('');
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message);
+        toast.error(err.message);
       } else {
-        setError('An unknown error occurred');
+        toast.error('An unknown error occurred');
       }
     } finally {
       setLoading(false);
@@ -134,9 +135,6 @@ export default function PasswordForm({ onBackToLogin }: Props) {
           </div>
         </div>
 
-        {/* Error or Success */}
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        {message && <p className="text-green-600 text-sm">{message}</p>}
 
         {/* Submit */}
         <button

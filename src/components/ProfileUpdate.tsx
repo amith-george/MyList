@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getUserIdFromToken } from '@/utils/auth';
 import clsx from 'clsx';
+import { toast } from 'react-hot-toast';
 import type { User } from '@/types/types';
 
 const avatarOptions = ['boy1.png', 'boy2.png', 'boy3.png', 'girl1.png', 'girl2.png', 'girl3.png'];
@@ -103,17 +104,17 @@ export default function ProfileUpdate({
         body: JSON.stringify(body),
       });
 
-      const data = await res.json();
       if (!res.ok) {
-        setErrorMessage(data.message || 'Update failed');
+        toast.error(data.message || 'Update failed');
         setIsSubmitting(false);
         return;
       }
 
+      toast.success("Profile updated successfully.");
       onUpdate(data.user as User);
       onClose();
     } catch (error: unknown) {
-      setErrorMessage('Something went wrong. Please try again.');
+      toast.error('Unable to update profile. That username might be taken.');
       console.error('Error updating user:', error);
     } finally {
       setIsSubmitting(false);

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 type Props = {
   mediaId: string;
@@ -43,10 +44,11 @@ export default function MediaUpdate({
       });
       if (!res.ok) throw new Error('Failed to update media');
 
+      toast.success("Your review has been updated.");
       onSuccess({ rating: Number(rating), review });
     } catch (err) {
       console.error(err);
-      alert('Error updating media.');
+      toast.error("Failed to save changes. Please try again.");
     } finally {
       setLoading(false);
     }

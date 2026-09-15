@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import { toast } from 'react-hot-toast';
 
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
@@ -32,7 +33,7 @@ export default function LoginForm({ onForgotPassword }: Props) {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || 'Login failed');
+        toast.error(data.message || 'Login failed');
         return;
       }
 
@@ -41,10 +42,11 @@ export default function LoginForm({ onForgotPassword }: Props) {
       localStorage.setItem('username', data.user.username);
       localStorage.setItem('avatar', data.user.avatar);
 
+      toast.success("Welcome back to MyList!");
       window.location.href = '/';
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred';
-      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -114,8 +116,7 @@ export default function LoginForm({ onForgotPassword }: Props) {
           </button>
         </div>
 
-        {/* Error Message */}
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+
 
         {/* Submit Button */}
         <button

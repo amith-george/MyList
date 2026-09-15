@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 export default function RegisterForm() {
@@ -41,17 +42,17 @@ export default function RegisterForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || 'Registration failed');
+        toast.error(data.message || 'Registration failed');
         return;
       }
 
-      setSuccess('Registration successful!');
+      toast.success("Account successfully created! Welcome!");
       router.push('/login');
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message);
+        toast.error(err.message);
       } else {
-        setError('An unexpected error occurred');
+        toast.error('An unexpected error occurred');
       }
     } finally {
       setLoading(false);
@@ -116,9 +117,7 @@ export default function RegisterForm() {
           </div>
         </div>
 
-        {/* Error / Success */}
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        {success && <p className="text-green-600 text-sm">{success}</p>}
+
 
         {/* Submit */}
         <button type="submit" disabled={loading} className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition">

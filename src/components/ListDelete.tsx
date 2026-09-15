@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 type ListDeleteProps = {
   userId: string;
@@ -33,12 +34,13 @@ export default function ListDelete({
 
       const data = await response.json();
       if (response.ok) {
+        toast.success("List has been permanently deleted.");
         onDeleted();
       } else {
-        alert(data.message || 'Failed to delete list.');
+        toast.error(data.message || 'Failed to delete list.');
       }
     } catch {
-      alert('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 type ListUpdateProps = {
   userId: string;
@@ -41,13 +42,14 @@ export default function ListUpdate({
 
       const data = await response.json();
       if (response.ok) {
+        toast.success("List details updated successfully.");
         onSuccess({ title, description });
         onClose();
       } else {
-        alert(data.message || 'Failed to update list.');
+        toast.error(data.message || 'Failed to update list.');
       }
     } catch {
-      alert('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }

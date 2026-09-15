@@ -1,5 +1,7 @@
 'use client';
 
+import { toast } from 'react-hot-toast';
+
 type Props = {
   mediaId: string;
   listId: string;
@@ -19,11 +21,12 @@ export default function MediaDelete({ mediaId, listId, onClose, onDeleted }: Pro
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error('Failed to delete media');
+      toast.success("Media successfully removed from your list.");
       onDeleted();
       onClose();
     } catch (err) {
       console.error(err);
-      alert('Error deleting media.');
+      toast.error("Failed to remove media.");
     }
   };
 

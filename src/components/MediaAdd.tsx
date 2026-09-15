@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { getUserIdFromToken } from '@/utils/auth';
+import { toast } from 'react-hot-toast';
 
 type Media = {
   id: number;
@@ -58,7 +59,7 @@ export default function MediaAdd({ media, onClose }: Props) {
   const handleSubmit = async () => {
     try {
       if (!selectedList || !selectedRating) {
-        setError('Select both a list and a rating');
+        toast.error('Select both a list and a rating');
         return;
       }
 
@@ -86,10 +87,10 @@ export default function MediaAdd({ media, onClose }: Props) {
         throw new Error(errorData.message || 'Failed to add media');
       }
 
+      toast.success("Successfully added to your list!");
       onClose();
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'An error occurred';
-      setError(message);
+      toast.error("Could not add media. It may already exist in this list.");
     }
   };
 
@@ -186,7 +187,6 @@ export default function MediaAdd({ media, onClose }: Props) {
           />
         </div>
 
-        {error && <p className="text-red-400 text-sm mb-3">⚠ {error}</p>}
 
         <button
           onClick={handleSubmit}

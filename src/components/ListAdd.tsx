@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 type ListAddProps = {
   userId: string;
@@ -32,12 +33,14 @@ export default function ListAdd({ userId, token, onClose, onCreated }: ListAddPr
 
       if (!res.ok) throw new Error('Failed to create list');
 
+      toast.success("Your new list has been created!");
       setTitle('');
       setDescription('');
       onCreated();
       onClose();
     } catch (error) {
       console.error('Error creating list:', error);
+      toast.error("Failed to create list. Please try again.");
     } finally {
       setLoading(false);
     }
