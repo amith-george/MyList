@@ -13,8 +13,6 @@ export default function PasswordForm({ onBackToLogin }: Props) {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const inputStyle =
@@ -22,11 +20,9 @@ export default function PasswordForm({ onBackToLogin }: Props) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setMessage(null);
 
     if (newPassword !== confirmPassword) {
-      setError('Passwords do not match');
+      toast.error('Passwords do not match');
       return;
     }
 

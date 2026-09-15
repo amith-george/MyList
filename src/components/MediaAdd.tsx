@@ -28,7 +28,6 @@ export default function MediaAdd({ media, onClose }: Props) {
   const [selectedRating, setSelectedRating] = useState('');
   const [review, setReview] = useState('');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [lockScroll, setLockScroll] = useState(false);
@@ -47,7 +46,7 @@ export default function MediaAdd({ media, onClose }: Props) {
         setLists(data);
       } catch (err) {
         const message = err instanceof Error ? err.message : 'An error occurred';
-        setError(message);
+        toast.error(message);
       } finally {
         setLoading(false);
       }
@@ -89,7 +88,7 @@ export default function MediaAdd({ media, onClose }: Props) {
 
       toast.success("Successfully added to your list!");
       onClose();
-    } catch (err) {
+    } catch {
       toast.error("Could not add media. It may already exist in this list.");
     }
   };
