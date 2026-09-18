@@ -1,4 +1,3 @@
-'use client';
 
 import AppSidebar from '@/components/Sidebar';
 import ListPageClient from '@/components/ListPageClient';
