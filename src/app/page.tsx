@@ -2,7 +2,6 @@ export const revalidate = 10800; // Cache page for 3 hours
 
 import AppSidebar from '@/components/Sidebar';
 import MediaRow from '@/components/MediaRow';
-import AuthGuard from '@/components/AuthGuard';
 import type { TmdbMediaItem } from '@/types/types';
 
 const backendBaseUrl =
@@ -75,21 +74,19 @@ export default async function Home() {
   const sections = await fetchSections();
 
   return (
-    <AuthGuard>
-      <div className="flex min-h-screen bg-[#1c1c1c] text-white">
-        <AppSidebar />
-        <main className="flex-1 p-4 sm:p-6 overflow-x-hidden">
-          {orderedKeys.map((title) =>
-            sections[title]?.length ? (
-              <MediaRow
-                key={title}
-                title={title}
-                media={sections[title].slice(0, 15)}
-              />
-            ) : null
-          )}
-        </main>
-      </div>
-    </AuthGuard>
+    <div className="flex min-h-screen bg-[#1c1c1c] text-white">
+      <AppSidebar />
+      <main className="flex-1 p-4 sm:p-6 overflow-x-hidden">
+        {orderedKeys.map((title) =>
+          sections[title]?.length ? (
+            <MediaRow
+              key={title}
+              title={title}
+              media={sections[title].slice(0, 15)}
+            />
+          ) : null
+        )}
+      </main>
+    </div>
   );
 }

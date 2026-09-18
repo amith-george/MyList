@@ -15,8 +15,8 @@ type UserList = {
   mediaItems: string[];
 };
 
-export default function ListPageClient() {
-  const [userLists, setUserLists] = useState<UserList[]>([]);
+export default function ListPageClient({ initialLists }: { initialLists: UserList[] }) {
+  const [userLists, setUserLists] = useState<UserList[]>(initialLists);
   const [showModal, setShowModal] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string>('');
@@ -43,7 +43,6 @@ export default function ListPageClient() {
       if (uid && tokenFromStorage) {
         setUserId(uid);
         setToken(tokenFromStorage);
-        fetchLists(uid, tokenFromStorage);
       }
     }
   }, []);

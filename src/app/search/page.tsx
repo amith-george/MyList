@@ -1,7 +1,6 @@
 // src/app/search/page.tsx
 import AppSidebar from '@/components/Sidebar';
 import SearchPageClient from '@/components/SearchPageClient';
-import AuthGuard from '@/components/AuthGuard';
 import { Suspense } from 'react';
 
 type Props = {
@@ -16,7 +15,6 @@ export default async function SearchPage({ searchParams }: Props) {
   const currentPage = Number(page);
 
   return (
-    <AuthGuard>
     <div className="flex min-h-screen bg-[#1c1c1c] text-white">
       <AppSidebar />
       <main className="flex-1 p-4 sm:p-6">
@@ -26,6 +24,5 @@ export default async function SearchPage({ searchParams }: Props) {
         </Suspense>
       </main>
     </div>
-    </AuthGuard>
   );
 }

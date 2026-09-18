@@ -99,6 +99,8 @@ export default function ProfilePageClient({ username }: { username: string }) {
     ['token', 'username', 'email', 'avatar'].forEach((key) =>
       localStorage.removeItem(key)
     );
+    // Remove token cookie
+    document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     window.location.href = '/login';
   };
 

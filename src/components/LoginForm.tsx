@@ -39,6 +39,9 @@ export default function LoginForm({ onForgotPassword }: Props) {
       localStorage.setItem('email', data.user.email);
       localStorage.setItem('username', data.user.username);
       localStorage.setItem('avatar', data.user.avatar);
+      
+      // Set cookie for middleware access (expires in 30 days)
+      document.cookie = `token=${data.token}; path=/; max-age=2592000`;
 
       toast.success("Welcome back to MyList!");
       window.location.href = '/';
